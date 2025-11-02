@@ -23,7 +23,7 @@
 import math
 from pyrogram.types import InlineKeyboardButton
 from ShrutiMusic.utils.formatters import time_to_seconds
-from config import BOT_USERNAME, OWNER_ID, SUPPORT_CHANNEL
+from config import BOT_USERNAME, OWNER_ID, SUPPORT_CHANNEL, SUPPORT_GROUP
 
 
 def track_markup(_, videoid, user_id, channel, fplay):
