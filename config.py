@@ -52,6 +52,12 @@ HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
 HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# 🤖 AI / ChatGPT / Opera AI Key
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", None)
+
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🔄 Git & Update Settings
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -137,6 +143,7 @@ autoclean = []
 confirmer = {}
 
 TEMP_DB_FOLDER = "tempdb"
+
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # ⏳ Time Conversion Utility
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -175,6 +182,3 @@ if SUPPORT_GROUP:
 # 🔗 GitHub : https://github.com/NoxxOP/ShrutiMusic
 # 📢 Telegram Channel : https://t.me/ShrutiBots
 # ===========================================
-
-
-# ❤️ Love From ShrutiBots 
