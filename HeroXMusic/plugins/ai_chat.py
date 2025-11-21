@@ -1,21 +1,52 @@
-from pyrogram import filters
-from HeroXMusic import app
-from g4f.client import Client
+from pyrogram import Client, filters
+from config import API_ID, API_HASH, BOT_TOKEN, OPENAI_API_KEY, MONGO_DB_URI
+from pymongo import MongoClient
+import openai
 
-g4f_client = Client()
+# ------------ MongoDB Connection -------------
+mongo = MongoClient(MONGO_DB_URI)
+db = mongo["shruti_ai_chat"]
+users = db["users"]
 
-@app.on_message(filters.private & filters.text)
-async def ai_chat_handler(_, message):
+# ------------ OpenAI / Opera AI -------------
+openai.api_key = OPENAI_API_KEY
+
+# ------------ Pyrogram Bot ------------------
+bot = Client(
+    "AI-CHAT",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN
+)
+
+# ------------ Chat Handler -------------------
+@bot.on_message(filters.text & ~filters.command(["start", "help"]))
+async def ai_chat_handler(bot, message):
+
+    user_id = message.from_user.id
+    user_msg = message.text
+
+    # Save user chat history
+    users.update_one(
+        {"user_id": user_id},
+        {"$push": {"messages": {"role": "user", "content": user_msg}}},
+        upsert=True
+    )
+
+    # Send to OpenAI / Opera AI
     try:
-        prompt = message.text
-
-        response = g4f_client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": prompt}]
+        response = openai.ChatCompletion.create(
+            model="gpt-4o-mini",     # opera/openai supported model
+            messages=[{"role": "user", "content": user_msg}]
         )
 
-        reply_text = response.choices[0].message.content
-        await message.reply_text(reply_text)
+        bot_reply = response["choices"][0]["message"]["content"]
 
     except Exception as e:
-        await message.reply_text(f"AI Error: {e}")
+        bot_reply = f"⚠ AI Error: {e}"
+
+    # Send reply to user
+    await message.reply_text(bot_reply)
+
+# ------------ Start Bot ----------------------
+bot.run()
