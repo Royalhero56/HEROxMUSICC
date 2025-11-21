@@ -1,4 +1,5 @@
 gTTS
+openai==0.28
 aiofiles
 aiohttp
 asyncio
@@ -34,4 +35,5 @@ git+https://github.com/yt-dlp/yt-dlp.git
 # 🔗 GitHub : https://github.com/NoxxOP/ShrutiMusic
 # 📢 Telegram Channel : https://t.me/ShrutiBots
 # ===========================================
+
 
